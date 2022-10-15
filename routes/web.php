@@ -29,7 +29,10 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/student/index',  [StudentController::class, 'index'])->name('admin.student.index');
     Route::get('/student/create',  [StudentController::class, 'create'])->name('admin.student.create');
+    Route::get('/student/edit/{id}',  [StudentController::class, 'edit'])->name('admin.student.edit');
     Route::post('/student/store',  [StudentController::class, 'store'])->name('admin.student.store');
+    Route::put('/student/update/{id}',  [StudentController::class, 'update'])->name('admin.student.update');
+    Route::get('/student/delete/{id}',  [StudentController::class, 'delete'])->name('admin.student.delete');
 });
 
 

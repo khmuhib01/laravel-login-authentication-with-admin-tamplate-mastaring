@@ -23,6 +23,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,6 +33,10 @@
                                 <td>{{ $student->name }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td>{{ $student->phone }}</td>
+                                <td>
+                                  <a href="{{ route('admin.student.edit', ['id'=>$student->id]) }}">Edit</a>
+                                  <a href="{{ route('admin.student.delete', ['id'=>$student->id]) }}">Delete</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

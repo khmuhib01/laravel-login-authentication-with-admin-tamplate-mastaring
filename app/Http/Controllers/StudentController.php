@@ -16,13 +16,24 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //$students = DB::table('students')->get();
+        $students = DB::table('students')->get();
+        //$students = DB::table('students')->leftJoin('results')->get();
+        //$students = DB::table('students')->exits;
+        
+
+        //$students = DB::table('students')->where('name', 'shifa')->union($student)->get();
         //$students = DB::table('students')->where('name', 'test')->orWhere('name', 'shakib')->whereBetween('id', [2,4])->get();
         //$students = DB::table('students')->whereBetween('id', [2,4])->get();
         //$students = DB::table('students')->whereNotBetween('id', [2,4])->get();
-        $students = DB::table('students')->whereIn('id', [2,4])->get();
+        // $students = DB::table('students')->where(
+        //     function ($query) {
+        //         $query -> where('age', '>', 60);
+        //     }
+        // )->get();
+
+        //dd($students);
         return view('admin.students.index', compact('students'));
-        
+
     }
 
     /**
@@ -43,7 +54,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = array (
+        $data = array(
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -72,9 +83,11 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit(Request $request)
     {
-        //
+        $id = $request->id;
+        $student = DB::table('students')->find($id);
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -84,9 +97,19 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+        $data = array(
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'age' => $request->age
+        );
+
+        $result = DB::table('students')->where('id', $id)->update($data);
+
+        return redirect()->route('admin.student.index');
     }
 
     /**
@@ -95,8 +118,12 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function delete(Request $request)
     {
-        //
+        $id = $request->id;
+
+        $result = DB::table('students')->where('id', $id)->delete();
+
+        return redirect()->route('admin.student.index');
     }
 }
